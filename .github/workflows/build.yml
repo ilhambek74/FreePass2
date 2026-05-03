@@ -21,7 +21,6 @@ jobs:
           mkdir -p app/src/main/java/com/freepass/vpn
           mkdir -p app/src/main/res/layout
           mkdir -p app/src/main/res/values
-          mkdir -p app/src/main/res/mipmap-hdpi
           mkdir -p app/src/main/assets
 
           cat > settings.gradle << 'EOF'
@@ -44,9 +43,7 @@ jobs:
           EOF
 
           cat > app/build.gradle << 'EOF'
-          plugins {
-              id 'com.android.application'
-          }
+          plugins { id 'com.android.application' }
           android {
               namespace 'com.freepass.vpn'
               compileSdk 34
@@ -58,25 +55,17 @@ jobs:
                   versionName "1.0"
               }
               buildTypes {
-                  release {
-                      minifyEnabled false
-                      signingConfig signingConfigs.debug
-                  }
+                  release { minifyEnabled false; signingConfig signingConfigs.debug }
               }
           }
-          dependencies {
-              implementation 'androidx.appcompat:appcompat:1.6.1'
-          }
+          dependencies { implementation 'androidx.appcompat:appcompat:1.6.1' }
           EOF
 
           cat > app/src/main/AndroidManifest.xml << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <manifest xmlns:android="http://schemas.android.com/apk/res/android">
               <uses-permission android:name="android.permission.INTERNET"/>
-              <application
-                  android:allowBackup="true"
-                  android:label="FreePass"
-                  android:theme="@style/AppTheme">
+              <application android:allowBackup="true" android:label="FreePass" android:theme="@style/AppTheme">
                   <activity android:name=".MainActivity" android:exported="true">
                       <intent-filter>
                           <action android:name="android.intent.action.MAIN"/>
@@ -98,11 +87,11 @@ jobs:
               protected void onCreate(Bundle savedInstanceState) {
                   super.onCreate(savedInstanceState);
                   setContentView(R.layout.activity_main);
-                  WebView webView = findViewById(R.id.webView);
-                  WebSettings s = webView.getSettings();
+                  WebView w = findViewById(R.id.webView);
+                  WebSettings s = w.getSettings();
                   s.setJavaScriptEnabled(true);
                   s.setDomStorageEnabled(true);
-                  webView.loadUrl("file:///android_asset/index.html");
+                  w.loadUrl("file:///android_asset/index.html");
               }
           }
           EOF
@@ -110,11 +99,9 @@ jobs:
           cat > app/src/main/res/layout/activity_main.xml << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_width="match_parent" android:layout_height="match_parent">
               <WebView android:id="@+id/webView"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"/>
+                  android:layout_width="match_parent" android:layout_height="match_parent"/>
           </LinearLayout>
           EOF
 
@@ -129,54 +116,36 @@ jobs:
           <!DOCTYPE html><html><head><meta charset="UTF-8">
           <meta name="viewport" content="width=device-width,initial-scale=1">
           <title>FreePass VPN</title>
-          <style>
-          *{margin:0;padding:0;box-sizing:border-box}
-          body{background:#060a0f;color:#c8d8e8;font-family:sans-serif}
-          .header{padding:20px;text-align:center;border-bottom:1px solid #1a2f4a}
-          .logo{font-size:32px;font-weight:bold;color:#00d4ff;letter-spacing:4px}
-          .sub{font-size:12px;color:#00ff88;letter-spacing:2px;margin-top:4px}
-          .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px}
-          .stat{background:#0d1520;border:1px solid #1a2f4a;border-radius:8px;padding:12px;text-align:center}
-          .stat-num{font-size:24px;font-weight:bold}
-          .stat-label{font-size:10px;color:#4a6080;margin-top:2px}
-          .btn{display:block;margin:8px 12px;padding:14px;border-radius:8px;border:none;font-size:16px;font-weight:bold;cursor:pointer}
-          .btn-check{background:transparent;border:1px solid #00d4ff;color:#00d4ff}
-          .btn-copy{background:transparent;border:1px solid #00ff88;color:#00ff88}
-          .sub-list{padding:12px}
-          .sub-card{background:#0d1520;border:1px solid #1a2f4a;border-radius:10px;padding:12px;margin-bottom:8px;border-left:3px solid #4a6080}
-          .sub-card.ok{border-left-color:#00ff88}
-          .sub-card.fail{border-left-color:#ff3366;opacity:.6}
-          .sub-name{font-size:14px;font-weight:bold;color:#fff}
-          .sub-url{font-size:9px;color:#4a6080;margin-top:2px;word-break:break-all}
-          .badge{float:right;font-size:11px;padding:2px 8px;border-radius:4px}
-          .ok-b{background:rgba(0,255,136,.1);color:#00ff88}
-          .fail-b{background:rgba(255,51,102,.1);color:#ff3366}
-          .idle-b{background:rgba(74,96,128,.2);color:#4a6080}
-          .log{background:#030608;border:1px solid #1a2f4a;border-radius:8px;margin:12px;padding:10px;font-size:10px;font-family:monospace;max-height:120px;overflow-y:auto}
-          </style></head><body>
+          <style>*{margin:0;padding:0;box-sizing:border-box}body{background:#060a0f;color:#c8d8e8;font-family:sans-serif}.header{padding:20px;text-align:center;border-bottom:1px solid #1a2f4a}.logo{font-size:32px;font-weight:bold;color:#00d4ff;letter-spacing:4px}.sub{font-size:12px;color:#00ff88;letter-spacing:2px;margin-top:4px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px}.stat{background:#0d1520;border:1px solid #1a2f4a;border-radius:8px;padding:12px;text-align:center}.stat-num{font-size:24px;font-weight:bold}.stat-label{font-size:10px;color:#4a6080;margin-top:2px}.btn{display:block;margin:8px 12px;padding:14px;border-radius:8px;border:none;font-size:16px;font-weight:bold;cursor:pointer}.btn-check{background:transparent;border:1px solid #00d4ff;color:#00d4ff}.btn-copy{background:transparent;border:1px solid #00ff88;color:#00ff88}.sub-list{padding:12px}.sub-card{background:#0d1520;border:1px solid #1a2f4a;border-radius:10px;padding:12px;margin-bottom:8px;border-left:3px solid #4a6080}.sub-card.ok{border-left-color:#00ff88}.sub-card.fail{border-left-color:#ff3366;opacity:.6}.sub-name{font-size:14px;font-weight:bold;color:#fff}.sub-url{font-size:9px;color:#4a6080;margin-top:2px;word-break:break-all}.badge{float:right;font-size:11px;padding:2px 8px;border-radius:4px}.ok-b{background:rgba(0,255,136,.1);color:#00ff88}.fail-b{background:rgba(255,51,102,.1);color:#ff3366}.idle-b{background:rgba(74,96,128,.2);color:#4a6080}.log{background:#030608;border:1px solid #1a2f4a;border-radius:8px;margin:12px;padding:10px;font-size:10px;font-family:monospace;max-height:120px;overflow-y:auto}</style>
+          </head><body>
           <div class="header"><div class="logo">FREEPASS</div><div class="sub">VPN — VLESS + VMESS + TROJAN</div></div>
-          <div class="stats">
-          <div class="stat"><div class="stat-num" id="total" style="color:#00d4ff">8</div><div class="stat-label">Всего</div></div>
-          <div class="stat"><div class="stat-num" id="active" style="color:#00ff88">0</div><div class="stat-label">Рабочих</div></div>
-          <div class="stat"><div class="stat-num" id="dead" style="color:#ff3366">0</div><div class="stat-label">Нерабочих</div></div>
-          </div>
+          <div class="stats"><div class="stat"><div class="stat-num" id="total" style="color:#00d4ff">8</div><div class="stat-label">Всего</div></div><div class="stat"><div class="stat-num" id="active" style="color:#00ff88">0</div><div class="stat-label">Рабочих</div></div><div class="stat"><div class="stat-num" id="dead" style="color:#ff3366">0</div><div class="stat-label">Нерабочих</div></div></div>
           <button class="btn btn-check" onclick="checkAll()">⟳ ПРОВЕРИТЬ ВСЕ</button>
           <button class="btn btn-copy" onclick="copyBest()">⬇ СКОПИРОВАТЬ ЛУЧШУЮ</button>
           <div class="sub-list" id="subList"></div>
           <div class="log" id="log"><div style="color:#00d4ff">FreePass VPN готов...</div></div>
           <script>
-          const S=[
-          {n:"Barry-Far",u:"https://raw.githubusercontent.com/barry-far/V2ray-Config/main/All_Configs_Sub.txt"},
-          {n:"MatinGhanbari",u:"https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/v2ray/super-sub.txt"},
-          {n:"Epodonios",u:"https://raw.githubusercontent.com/Epodonios/v2ray-configs/refs/heads/main/All_Configs_Sub.txt"},
-          {n:"Hans-Thomas",u:"https://raw.githubusercontent.com/hans-thomas/v2ray-subscription/refs/heads/master/servers.txt"},
-          {n:"VLESS Only",u:"https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/filtered/subs/vless.txt"},
-          {n:"VMess Only",u:"https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/filtered/subs/vmess.txt"},
-          {n:"LalatinaHub",u:"https://raw.githubusercontent.com/LalatinaHub/Mineral/refs/heads/master/result/nodes"},
-          {n:"MrMohebi",u:"https://raw.githubusercontent.com/MrMohebi/xray-proxy-grabber-telegram/master/collected-proxies/row-url/actives.txt"}
-          ];
+          const S=[{n:"Barry-Far",u:"https://raw.githubusercontent.com/barry-far/V2ray-Config/main/All_Configs_Sub.txt"},{n:"MatinGhanbari",u:"https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/v2ray/super-sub.txt"},{n:"Epodonios",u:"https://raw.githubusercontent.com/Epodonios/v2ray-configs/refs/heads/main/All_Configs_Sub.txt"},{n:"Hans-Thomas",u:"https://raw.githubusercontent.com/hans-thomas/v2ray-subscription/refs/heads/master/servers.txt"},{n:"VLESS Only",u:"https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/filtered/subs/vless.txt"},{n:"VMess Only",u:"https://raw.githubusercontent.com/MatinGhanbari/v2ray-configs/main/subscriptions/filtered/subs/vmess.txt"},{n:"LalatinaHub",u:"https://raw.githubusercontent.com/LalatinaHub/Mineral/refs/heads/master/result/nodes"},{n:"MrMohebi",u:"https://raw.githubusercontent.com/MrMohebi/xray-proxy-grabber-telegram/master/collected-proxies/row-url/actives.txt"}];
           let st=new Array(S.length).fill('idle');
           function log(m,t='info'){const e=document.getElementById('log');const d=document.createElement('div');d.style.color=t==='ok'?'#00ff88':t==='err'?'#ff3366':'#00d4ff';d.textContent=new Date().toTimeString().slice(0,8)+' '+m;e.appendChild(d);e.scrollTop=e.scrollHeight;}
           function render(){const l=document.getElementById('subList');l.innerHTML='';S.forEach((s,i)=>{const c=document.createElement('div');c.className='sub-card '+(st[i]==='ok'?'ok':st[i]==='fail'?'fail':'');const b=st[i]==='ok'?'<span class="badge ok-b">✓ OK</span>':st[i]==='fail'?'<span class="badge fail-b">✗ FAIL</span>':'<span class="badge idle-b">― IDLE</span>';c.innerHTML=b+'<div class="sub-name">'+s.n+'</div><div class="sub-url">'+s.u+'</div>';l.appendChild(c);});document.getElementById('active').textContent=st.filter(s=>s==='ok').length;document.getElementById('dead').textContent=st.filter(s=>s==='fail').length;}
           async function checkAll(){log('Проверка...');for(let i=0;i<S.length;i++){try{const r=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(S[i].u),{signal:AbortSignal.timeout(8000)});const t=await r.text();st[i]=(r.ok&&t.length>50)?'ok':'fail';}catch(e){st[i]='fail';}log((st[i]==='ok'?'✓ ':'✗ ')+S[i].n,st[i]==='ok'?'ok':'err');render();}log('Готово! Рабочих: '+st.filter(s=>s==='ok').length,'ok');}
-          function copyBest(){const i=st.indexOf('ok');if(i>=0){navigator.clipboard?navigator.clipboard.writeText(S[i].u).then(()=>log('Скопировано: '+S[i].n,'ok')):(()=>{const t=document.createElement('textarea');t.value=S[i].u;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);log('Скопировано: '+S[i].
+          function copyBest(){const i=st.indexOf('ok');if(i>=0){navigator.clipboard?navigator.clipboard.writeText(S[i].u).then(()=>log('Скопировано: '+S[i].n,'ok')):(()=>{const t=document.createElement('textarea');t.value=S[i].u;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);log('Скопировано: '+S[i].n,'ok');})();}else{log('Сначала нажми ПРОВЕРИТЬ','err');}}
+          render();
+          </script></body></html>
+          HTMLEOF
+
+      - name: Setup Gradle
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.1.1-bin.zip
+          unzip -q gradle-8.1.1-bin.zip
+          echo "$PWD/gradle-8.1.1/bin" >> $GITHUB_PATH
+
+      - name: Build APK
+        run: gradle assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: FreePass-VPN
+          path: app/build/outputs/apk/release/app-release-unsigned.apk
